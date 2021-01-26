@@ -1,4 +1,4 @@
-﻿namespace CustomTimer
+namespace CustomTimer
 {
     /// <summary>
     /// A custom class for simulating a countdown clock, which implements the ability to send a messages and additional
@@ -6,8 +6,7 @@
     /// 
     /// - When creating a CustomTimer object, it must be assigned:
     ///     - name (not null or empty string, otherwise ArgumentException will be thrown);
-    ///     - the number of ticks (the number must be greater than 0 and less than 10, otherwise an exception
-    ///     will throw an ArgumentException).
+    ///     - the number of ticks (the number must be greater than 0 otherwise an exception will throw an ArgumentException).
     /// 
     /// - After the timer has been created, it should fire the Started event, the event should contain information about
     /// the name of the timer and the number of ticks to start.
