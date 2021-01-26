@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CustomTimer.Interfaces;
 
 namespace CustomTimer.Implementation
@@ -7,7 +7,7 @@ namespace CustomTimer.Implementation
     public class CountDownNotifier : ICountDownNotifier
     {
         /// <inheritdoc/>
-        public void Init(Action<string, int> startDelegate, Action<string> stopDelegate, Action<string, int> tickDelegate)
+        public void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler)
         {
             throw new NotImplementedException();
         }
