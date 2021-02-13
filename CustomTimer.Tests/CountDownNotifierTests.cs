@@ -52,7 +52,7 @@ namespace CustomTimer.Tests
             notifier.Init(TimerStarted, TimerStopped, TimerTick);
             notifier.Run();
 
-            Assert.AreEqual(0, remainsTicks);
+            Assert.AreEqual(0, remainsTicks - 1);
         }
 
         [TestCase("pie", 10)]
