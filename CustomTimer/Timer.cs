@@ -19,5 +19,9 @@ namespace CustomTimer
     /// </summary>
     public class Timer
     {
+        public Timer(string timerName, int ticks)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

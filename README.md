@@ -1,19 +1,1 @@
-﻿Необходимо разработать таймер, предоставляющий следующие возможности:
-1. В момент создание экземпляра класса Timer нужно присвоить ему имя (ограничение - непустая строка, иначе генерировать ArgumentException).
-2. В момент создание экземпляра класса Timer необходимо указать количество тиков для отсчета (ограничение - число должно быть больше 0, иначе генерировать ArgumentException).
-3. В момент запуска таймер генерирует событие Started, которое предоставляет информацию об имени таймера и количестве тиков для отсчета.
-4. Через равные промежутки времени таймер генерирует событие Tick, которое предоставляет информацию об имени таймера и количестве тиков, оставшихся до окончания обратного отсчета.
-5. После завершения отсчета таймер генерирует событие Stopped, которое предоставляет информацию об имени таймера.
-
-На события таймера может подписываться любой класс, реализующий интерфейс ICountDownNotifier. 
-В метод Init передаются методы, которые должны быть выполнены при наступлении событий Started, Tick и Stopped таймера. 
-Предусмотреть случай, когда вместо делегата передается null - это не должно повлиять на работу таймера. 
-Метод Run запускает таймер.
-
-Детали реализации:
-1. Таймер необходимо реализовать в классе Timer.
-2. Для создания эффекта работы таймера можно использовать метод Thread.Sleep.
-3. Для подписки на события класса Timer необходимо доработать класс CountDownNotifier, реализующий интерфейс ICountDownNotifier.
-4. Для создания экземпляров классов Timer и CountDownNotifier используются фабрики TimerFactory и CountDownNotifierFactory соответственно. Реализацию фабричных методов необходимо написать самостоятельно. Ограничение - нельзя создать экземпляр класса CountDownNotifier, передав ему null в качестве таймера.
-5. Вносить изменения в unit тесты запрещено.
-6. Необходимо добиться успешного прохождения всех unit тестов.
+﻿# Count Down Timer with events## Task description- You need to implement the `Timer` class for simulating a countdown clock. The Timer has the ability to send out messages with information about  `Started`, `Tick` and `Stopped` events to other types subscribed to the events. _Don't use the .NET System.Timer classes for the Timer implementation_. The `Timer` class should have following functionality:    - When an object of the `Timer` class is constructed it has to be assigned:        - Name (not null or empty string, otherwise the exception `ArgumentException` should be thrown);        - Number of ticks (the number has to be greater than 0, otherwise the exception  `ArgumentException` should be thrown).    - After  the timer has been created it should be called to Run. In responce to Run the Timer  fires the `Started` event , the event should contain the information about the timer Name and the Number of ticks to be fired.    - After firing the `Started` event the Timer starts firing `Tick` events with the information abount the timer name and the number of tics left to fire.  There should be delays between `Tick` events. To emulate delays between `Tick` events it is recommended to use `Thread.Sleep` method.    - After all `Tick` events have been fired the timer has to fire `Stopped` event, the event should contain the  timer Name information.- You need to complete the  implementation of the `CountDownNotifier` class. This class consumes events from the `Timer`.  The implementation logic has to check that when the object of `CountDownNotifier` class is created the `null` is not passed as a parameter insted of the `Timer` object. - Provide the implementation of the [Factory methods](https://gitlab.com/epam-autocode-tasks/delegates-events-task/-/tree/master/CustomTimer/Factories) (see [Factory method theory](https://en.wikipedia.org/wiki/Factory_method_pattern)) to create bjects of the `Timer` and `CountDownNotifier` classes.No changes are allowed to the unit tests!
