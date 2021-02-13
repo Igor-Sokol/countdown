@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CustomTimer.Factories;
 using NUnit.Framework;
 
@@ -52,7 +52,7 @@ namespace CustomTimer.Tests
             notifier.Init(TimerStarted, TimerStopped, TimerTick);
             notifier.Run();
 
-            Assert.AreEqual(0, remainsTicks - 1);
+            Assert.AreEqual(0, remainsTicks);
         }
 
         [TestCase("pie", 10)]
