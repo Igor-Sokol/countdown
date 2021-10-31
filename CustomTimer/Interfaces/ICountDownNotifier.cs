@@ -13,7 +13,7 @@ namespace CustomTimer.Interfaces
         /// <param name="startHandler">Represents a Start event handler. Can be null.</param>
         /// <param name="stopHandler">Represents a Stop event handler. Can be null.</param>
         /// <param name="tickHandler">Represents a Tick event handler. Can be null.</param>
-        void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler);
+        void Init(EventHandler<TimerEventArgs> startHandler, EventHandler<TimerEventArgs> stopHandler, EventHandler<TimerEventArgs> tickHandler);
 
         /// <summary>
         /// Starts timer.

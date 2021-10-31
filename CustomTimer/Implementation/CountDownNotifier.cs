@@ -7,28 +7,49 @@ namespace CustomTimer.Implementation
     public class CountDownNotifier : ICountDownNotifier
     {
         private readonly Timer timer;
-        private Action<string, int> startHandler = (arg1, arg2) => { };
-        private Action<string> stopHandler = (arg1) => { };
-        private Action<string, int> tickHandler = (arg1, arg2) => { };
 
         public CountDownNotifier(Timer timer)
         {
             this.timer = timer;
         }
 
+        public event EventHandler<TimerEventArgs> StartHandler;
+
+        public event EventHandler<TimerEventArgs> StopHandler;
+
+        public event EventHandler<TimerEventArgs> TickHandler;
+
         /// <inheritdoc/>
-        public void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler)
+        public void Init(EventHandler<TimerEventArgs> startHandler, EventHandler<TimerEventArgs> stopHandler, EventHandler<TimerEventArgs> tickHandler)
         {
-            this.startHandler += startHandler;
-            this.stopHandler += stopHandler;
-            this.tickHandler += tickHandler;
+            this.StartHandler += startHandler;
+            this.StopHandler += stopHandler;
+            this.TickHandler += tickHandler;
+
+            this.timer.StartHandler += this.OnTimerStart;
+            this.timer.TickHandler += this.OnTimerTick;
+            this.timer.StopHandler += this.OnTimerStop;
         }
 
         /// <inheritdoc/>
         public void Run()
         {
-            this.timer.Init(this.startHandler, this.stopHandler, this.tickHandler);
             this.timer.Start();
+        }
+
+        private void OnTimerStart(object sender, TimerEventArgs eventArgs)
+        {
+            this.StartHandler?.Invoke(this, eventArgs);
+        }
+
+        private void OnTimerTick(object sender, TimerEventArgs eventArgs)
+        {
+            this.TickHandler?.Invoke(this, eventArgs);
+        }
+
+        private void OnTimerStop(object sender, TimerEventArgs eventArgs)
+        {
+            this.StopHandler?.Invoke(this, eventArgs);
         }
     }
 }
