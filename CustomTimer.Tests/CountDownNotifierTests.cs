@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using CustomTimer.Factories;
 using NUnit.Framework;
 
@@ -26,27 +26,27 @@ namespace CustomTimer.Tests
             var timer = this.timerFactory.CreateTimer(name, totalTicks);
             var notifier = this.countDownNotifierFactory.CreateNotifierForTimer(timer);
 
-            void TimerStarted(string timerName, int ticks)
+            void TimerStarted(object sender, TimerEventArgs eventArgs)
             {
-                Assert.AreEqual(name, timerName);
-                Assert.AreEqual(totalTicks, ticks);
-                Console.WriteLine($"Start timer '{timerName}', total {ticks} ticks");
+                Assert.AreEqual(name, eventArgs.TimerName);
+                Assert.AreEqual(totalTicks, eventArgs.RemainsTicks);
+                Console.WriteLine($"Start timer '{eventArgs.TimerName}', total {eventArgs.RemainsTicks} ticks");
             }
 
-            void TimerStopped(string timerName)
+            void TimerStopped(object sender, TimerEventArgs eventArgs)
             {
-                Assert.AreEqual(name, timerName);
-                Console.WriteLine($"Stop timer '{timerName}'");
+                Assert.AreEqual(name, eventArgs.TimerName);
+                Console.WriteLine($"Stop timer '{eventArgs.TimerName}'");
             }
 
             var remainsTicks = totalTicks;
 
-            void TimerTick(string timerName, int ticks)
+            void TimerTick(object sender, TimerEventArgs eventArgs)
             {
                 remainsTicks -= 1;
-                Assert.AreEqual(name, timerName);
-                Assert.AreEqual(remainsTicks, ticks);
-                Console.WriteLine($"Timer '{timerName}', remains {ticks} ticks");
+                Assert.AreEqual(name, eventArgs.TimerName);
+                Assert.AreEqual(remainsTicks, eventArgs.RemainsTicks);
+                Console.WriteLine($"Timer '{eventArgs.TimerName}', remains {eventArgs.RemainsTicks} ticks");
             }
 
             notifier.Init(TimerStarted, TimerStopped, TimerTick);

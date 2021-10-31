@@ -15,16 +15,16 @@ namespace CustomTimer.Tests
             var notifierMock = new Mock<CountDownNotifier>(timer);
             var notifier = notifierMock.Object;
 
-            var onStartMock = new Mock<Action<string, int>>();
-            var onStopMock = new Mock<Action<string>>();
-            var onTickMock = new Mock<Action<string, int>>();
+            var onStartMock = new Mock<EventHandler<TimerEventArgs>>();
+            var onStopMock = new Mock<EventHandler<TimerEventArgs>>();
+            var onTickMock = new Mock<EventHandler<TimerEventArgs>>();
 
             notifier.Init(onStartMock.Object, onStopMock.Object, onTickMock.Object);
             notifier.Run();
 
-            onStartMock.Verify(n => n(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
-            onStopMock.Verify(n => n(It.IsAny<string>()), Times.Once);
-            onTickMock.Verify(n => n(It.IsAny<string>(), It.IsAny<int>()), Times.Exactly(ticks));
+            onStartMock.Verify(n => n(It.IsAny<object>(), It.IsAny<TimerEventArgs>()), Times.Once);
+            onStopMock.Verify(n => n(It.IsAny<object>(), It.IsAny<TimerEventArgs>()), Times.Once);
+            onTickMock.Verify(n => n(It.IsAny<object>(), It.IsAny<TimerEventArgs>()), Times.Exactly(ticks));
         }
     }
 }
