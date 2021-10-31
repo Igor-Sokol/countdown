@@ -1,5 +1,8 @@
 ﻿using System;
+using CustomTimer.Implementation;
 using CustomTimer.Interfaces;
+
+#pragma warning disable CA1822 // Mark members as static
 
 namespace CustomTimer.Factories
 {
@@ -18,9 +21,10 @@ namespace CustomTimer.Factories
         /// <param name="timer">A reference to a class CustomTimer.</param>
         /// <returns>A reference to an object of the class that implements the <see cref="ICountDownNotifier"/> interface.</returns>
         /// <exception cref="ArgumentNullException">When timer is null.</exception>
-        public ICountDownNotifier CreateNotifierForTimer(Timer timer)
+        public ICountDownNotifier CreateNotifierForTimer(Timer timer) => timer switch
         {
-            throw new NotImplementedException();
-        }
+            null => throw new ArgumentNullException(nameof(timer), "Timer can not be null."),
+            _ => new CountDownNotifier(timer),
+        };
     }
 }

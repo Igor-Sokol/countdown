@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using CustomTimer.Interfaces;
 
 namespace CustomTimer.Implementation
@@ -6,16 +6,29 @@ namespace CustomTimer.Implementation
     /// <inheritdoc/>
     public class CountDownNotifier : ICountDownNotifier
     {
+        private readonly Timer timer;
+        private Action<string, int> startHandler = (arg1, arg2) => { };
+        private Action<string> stopHandler = (arg1) => { };
+        private Action<string, int> tickHandler = (arg1, arg2) => { };
+
+        public CountDownNotifier(Timer timer)
+        {
+            this.timer = timer;
+        }
+
         /// <inheritdoc/>
         public void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler)
         {
-            throw new NotImplementedException();
+            this.startHandler += startHandler;
+            this.stopHandler += stopHandler;
+            this.tickHandler += tickHandler;
         }
 
         /// <inheritdoc/>
         public void Run()
         {
-            throw new NotImplementedException();
+            this.timer.Init(this.startHandler, this.stopHandler, this.tickHandler);
+            this.timer.Start();
         }
     }
 }

@@ -1,3 +1,6 @@
+﻿using System;
+using System.Threading;
+
 namespace CustomTimer
 {
     /// <summary>
@@ -19,9 +22,52 @@ namespace CustomTimer
     /// </summary>
     public class Timer
     {
+        private readonly string timerName;
+        private readonly int ticks;
+        private Action<string, int> startHandler;
+        private Action<string> stopHandler;
+        private Action<string, int> tickHandler;
+
         public Timer(string timerName, int ticks)
         {
-            throw new System.NotImplementedException();
+            this.timerName = timerName;
+            this.ticks = ticks;
+        }
+
+        public void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler)
+        {
+            this.startHandler = startHandler;
+            this.stopHandler = stopHandler;
+            this.tickHandler = tickHandler;
+        }
+
+        public void Start()
+        {
+            this.OnTimerStart();
+
+            for (int i = this.ticks; i > 0;)
+            {
+                Thread.Sleep(10);
+                i--;
+                this.OnTimerTick(i);
+            }
+
+            this.OnTimerStop();
+        }
+
+        private void OnTimerStart()
+        {
+            this.startHandler?.Invoke(this.timerName, this.ticks);
+        }
+
+        private void OnTimerTick(int ticks)
+        {
+            this.tickHandler?.Invoke(this.timerName, ticks);
+        }
+
+        private void OnTimerStop()
+        {
+            this.stopHandler?.Invoke(this.timerName);
         }
     }
 }
