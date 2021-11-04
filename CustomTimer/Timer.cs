@@ -24,9 +24,6 @@ namespace CustomTimer
     {
         private readonly string timerName;
         private readonly int ticks;
-        private Action<string, int> startHandler;
-        private Action<string> stopHandler;
-        private Action<string, int> tickHandler;
 
         public Timer(string timerName, int ticks)
         {
@@ -34,12 +31,11 @@ namespace CustomTimer
             this.ticks = ticks;
         }
 
-        public void Init(Action<string, int> startHandler, Action<string> stopHandler, Action<string, int> tickHandler)
-        {
-            this.startHandler = startHandler;
-            this.stopHandler = stopHandler;
-            this.tickHandler = tickHandler;
-        }
+        public event Action<string, int> StartHandler;
+
+        public event Action<string> StopHandler;
+
+        public event Action<string, int> TickHandler;
 
         public void Start()
         {
@@ -57,17 +53,17 @@ namespace CustomTimer
 
         private void OnTimerStart()
         {
-            this.startHandler?.Invoke(this.timerName, this.ticks);
+            this.StartHandler?.Invoke(this.timerName, this.ticks);
         }
 
         private void OnTimerTick(int ticks)
         {
-            this.tickHandler?.Invoke(this.timerName, ticks);
+            this.TickHandler?.Invoke(this.timerName, ticks);
         }
 
         private void OnTimerStop()
         {
-            this.stopHandler?.Invoke(this.timerName);
+            this.StopHandler?.Invoke(this.timerName);
         }
     }
 }

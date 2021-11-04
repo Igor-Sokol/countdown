@@ -27,7 +27,9 @@ namespace CustomTimer.Implementation
         /// <inheritdoc/>
         public void Run()
         {
-            this.timer.Init(this.startHandler, this.stopHandler, this.tickHandler);
+            this.timer.StartHandler += this.startHandler;
+            this.timer.StopHandler += this.stopHandler;
+            this.timer.TickHandler += this.tickHandler;
             this.timer.Start();
         }
     }
